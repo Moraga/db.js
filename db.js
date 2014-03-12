@@ -99,7 +99,7 @@
 	
 	function join(left, right, fields, property, append, inclusive) {
 		var obj, match, added=0, temp=[], fn=fields.length, ln=left.length, rn=right.length, i=0, j=0;
-		if (typeof fields[0][0] != 'object') {
+		if (typeof fields[0] != 'object') {
 			fields = [fields];
 			fn = 1;
 		}
