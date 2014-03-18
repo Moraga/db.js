@@ -85,7 +85,7 @@
 	};
 	
 	var operators = {
-		equal: function(a, b) { return a == b },
+		eq: function(a, b) { return a == b },
 		not: function(a, b) { return a != b },
 		in: function(a, b) { return b.indexOf(a) > -1 },
 		nin: function(a, b) { return b.indexOf(a) == -1 },
