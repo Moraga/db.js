@@ -35,21 +35,33 @@
 			return this;
 		},
 		
-		group: function() {
-			var argsn=arguments.length, match=true, i=0, j, k;
-			for (; i < this[0].length; i++) {
-				for (this[0][i].count=1, j=this[0].length; --j > i;) {
-					for (k=0; k < argsn; k++)
-						if (this[0][i][arguments[k]] != this[0][j][arguments[k]]) {
-							match = false;
-							break;
-						}
-					if (match) {
-						this[0][i].count++;
-						this[0].splice(j, 1);
+		group: function(fields, options) {
+			var match=[], copy, sum =[[], []], i, j, k;
+			for (i=0; i < fields.length; match.push('a.'+ fields[i] +'==b.'+ fields[i++]));
+			match = Function.call(null, 'a', 'b', 'return '+ match.join('&&'));
+			options.count = options.count || 'count';
+			for (k in options.sum) {
+				sum[0].push('this.'+ k +' =0');
+				sum[1].push('this.'+ k +'+=b.'+ options.sum[k]);
+			}
+			sum[0] = Function.call(null, sum[0].join(';'));
+			sum[1] = Function.call(null, 'b', sum[1].join(';'));
+			for (i=0; i < this[0].length; i++) {
+				copy = extend({}, this[0][i]);
+				sum[0].call(this[0][i]);
+				if (options.appendTo)
+					this[0][i][options.appendTo] = [];
+				if (options.count)
+					this[0][i][options.count] = 0;
+				for (j=this[0].length; j--;) {
+					if (match(this[0][i], this[0][j])) {
+						this[0][i][options.count]++;
+						sum[1].call(this[0][i], this[0][j]);
+						if (options.appendTo)
+							this[0][i][options.appendTo].unshift(i == j ? copy : this[0].splice(j, 1)[0]);
+						else if (i !== j)
+							this[0].splice(j, 1);
 					}
-					else
-						match = true;
 				}
 			}
 			return this;
