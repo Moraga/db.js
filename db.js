@@ -2,7 +2,7 @@
  * Javascript JSON Queries
  * @author Alejandro Moraga <moraga86@gmail.com>
  */
-(function(ref) {
+(function(ref, undefined) {
 	'use strict';
 	
 	function db(data) {
@@ -78,6 +78,15 @@
 			return this;
 		},
 		
+		slice: function() {
+			this[0] = [].slice.apply(this[0], arguments);
+			return this;
+		},
+		
+		limit: function(offset, count) {
+			return this.slice.apply(this, count == undefined ? [0, offset] : [offset, offset + count])
+		},
+		
 		each: function(fn) {
 			for (var i=0, len=this[0].length; i < len; fn.call(this[0][i], i++));
 			return this;
@@ -99,7 +108,7 @@
 	var operators = {
 		eq: function(a, b) { return a == b },
 		not: function(a, b) { return a != b },
-		in: function(a, b) { return b.indexOf(a) > -1 },
+		'in': function(a, b) { return b.indexOf(a) > -1 },
 		nin: function(a, b) { return b.indexOf(a) == -1 },
 		gt: function(a, b) { return a > b },
 		gte: function(a, b) { return a >= b },
