@@ -30,8 +30,8 @@
 			return this;
 		},
 		
-		right_join: function(right, fields, property, append) {
-			this[0] = join(right, this[0], fields, property, append, true);
+		right_join: function(right, fields, property, append, inclusive) {
+			this[0] = join(right, this[0], fields, property, append, inclusive == undefined || inclusive);
 			return this;
 		},
 		
