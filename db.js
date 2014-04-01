@@ -39,6 +39,7 @@
 			var match=[], copy, sum =[[], []], i, j, k;
 			for (i=0; i < fields.length; match.push('a.'+ fields[i] +'==b.'+ fields[i++]));
 			match = Function.call(null, 'a', 'b', 'return '+ match.join('&&'));
+			if (!options) options = {};
 			options.count = options.count || 'count';
 			for (k in options.sum) {
 				sum[0].push('this.'+ k +' =0');
