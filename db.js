@@ -5,7 +5,7 @@
 (function(ref, undefined) {
 	'use strict';
 	
-	var debug = false;
+	var debug = {};
 	
 	function db(data) {
 		this[0] = data.slice(0);
@@ -90,11 +90,15 @@
 			return this.slice.apply(this, count == undefined ? [0, offset] : [offset, offset + count])
 		},
 		
-		debug: function(data) {
-			if (typeof data == 'boolean')
-				debug = data;
-			else if (debug)
-				data.call(this);
+		debug: function(act, fn) {
+			if (act == undefined)
+				return debug;
+			else if (typeof act == 'boolean')
+				this.each(function(i) {
+					debug[this] = act;
+				});
+			else if (debug[act])
+				fn.call(this);
 			return this;
 		},
 		
