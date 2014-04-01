@@ -22,6 +22,11 @@
 			return this;
 		},
 		
+		filter: function(fn) {
+			this[0] = this[0].filter(fn, this[0]);
+			return this;
+		},
+		
 		join: function(right, fields, property, append) {
 			this[0] = join(this[0], right, fields, property, append);
 			return this;
@@ -34,6 +39,11 @@
 		
 		right_join: function(right, fields, property, append, inclusive) {
 			this[0] = join(right, this[0], fields, property, append, inclusive == undefined || inclusive);
+			return this;
+		},
+		
+		reverse: function() {
+			this[0].reverse();
 			return this;
 		},
 		
