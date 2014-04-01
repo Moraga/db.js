@@ -5,6 +5,8 @@
 (function(ref, undefined) {
 	'use strict';
 	
+	var debug = false;
+	
 	function db(data) {
 		this[0] = data.slice(0);
 	}
@@ -86,6 +88,14 @@
 		
 		limit: function(offset, count) {
 			return this.slice.apply(this, count == undefined ? [0, offset] : [offset, offset + count])
+		},
+		
+		debug: function(data) {
+			if (typeof data == 'boolean')
+				debug = data;
+			else if (debug)
+				data.call(this);
+			return this;
 		},
 		
 		each: function(fn) {
