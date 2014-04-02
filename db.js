@@ -100,18 +100,6 @@
 			return this.slice.apply(this, count == undefined ? [0, offset] : [offset, offset + count])
 		},
 		
-		debug: function(act, fn) {
-			if (act == undefined)
-				return debug;
-			else if (typeof act == 'boolean')
-				this.each(function(i) {
-					debug[this] = act;
-				});
-			else if (debug[act])
-				fn.call(this);
-			return this;
-		},
-		
 		each: function(fn) {
 			for (var i=0, len=this[0].length; i < len; fn.call(this[0][i], i++));
 			return this;
@@ -127,6 +115,23 @@
 		
 		all: function() {
 			return this[0];
+		},
+		
+		scope: function(fn) {
+			fn.call(this);
+			return this;
+		},
+		
+		debug: function(act, fn) {
+			if (act == undefined)
+				return debug;
+			else if (typeof act == 'boolean')
+				this.each(function(i) {
+					debug[this] = act;
+				});
+			else if (debug[act])
+				fn.call(this);
+			return this;
 		}
 	};
 	
