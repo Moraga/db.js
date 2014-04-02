@@ -117,6 +117,11 @@
 			return this[0];
 		},
 		
+		apply: function(fn) {
+			for (var i=this[0].length; i--; (this[0][i]=fn.call(this[0][i], i)) || this[0].splice(i, 1));
+			return this;
+		},
+		
 		scope: function(fn) {
 			fn.call(this);
 			return this;
