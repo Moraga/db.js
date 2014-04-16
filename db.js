@@ -127,6 +127,10 @@
 			return this;
 		},
 		
+		clone: function() {
+			return new db(this[0]);
+		},
+		
 		debug: function(act, fn) {
 			if (act == undefined)
 				return debug;
