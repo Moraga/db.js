@@ -128,8 +128,7 @@
 		},
 		
 		add: function(data) {
-			extend(this, data);
-			return this;
+			return extend(this, data);
 		},
 		
 		clone: function() {
