@@ -127,6 +127,11 @@
 			return this;
 		},
 		
+		add: function(data) {
+			extend(this, data);
+			return this;
+		},
+		
 		clone: function() {
 			return new db(this[0]);
 		},
