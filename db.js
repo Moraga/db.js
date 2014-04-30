@@ -135,6 +135,16 @@
 			return new db(this[0]);
 		},
 		
+		print: function() {
+			var fn=[], i=0;
+			if (arguments.length)
+				for (var i=0; i < arguments.length; fn.push('this.'+ arguments[i++]));
+			else
+				fn.push('this');
+			this.each(Function.call(null, 'console.log('+ fn.join(',') +')'));
+			return this;
+		},
+		
 		debug: function(act, fn) {
 			if (act == undefined)
 				return debug;
