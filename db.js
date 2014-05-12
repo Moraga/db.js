@@ -212,7 +212,7 @@
 		},
 		str: function(str) {
 			str = str.toUpperCase();
-			for (var i=str.length, r=(i - 1) * i / 2 * 127; i--; r += str.charCodeAt(i));
+			for (var r=str.charCodeAt(0), i=1; i < str.length; r += str.charCodeAt(i) / Math.pow(10, ++i));
 			return r;
 		}
 	};
