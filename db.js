@@ -16,7 +16,7 @@
 			var match=[], field, k, i=this[0].length;
 			for (field in query)
 				for (k in query[field])
-					match.push('this.'+ k +'(item.'+ field +', query.'+ field +'.'+ k +')');
+					match.push('this["'+ k +'"](item["'+ field +'"], query["'+ field +'"]["'+ k +'"])');
 			match = Function.call(null, 'item', 'query', 'return '+ match.join('&&'));
 			for (; i--; match.call(operators, this[0][i], query) || this[0].splice(i, 1));
 			return this;
@@ -49,13 +49,13 @@
 		
 		group: function(fields, options) {
 			var match=[], copy, sum =[[], []], i, j, k;
-			for (i=0; i < fields.length; match.push('a.'+ fields[i] +'==b.'+ fields[i++]));
+			for (i=0; i < fields.length; match.push('a["'+ fields[i] +'"]==b["'+ fields[i++] +'"]'));
 			match = Function.call(null, 'a', 'b', 'return '+ match.join('&&'));
 			if (!options) options = {};
 			options.count = options.count || 'count';
 			for (k in options.sum) {
-				sum[0].push('this.'+ k +' =0');
-				sum[1].push('this.'+ k +'+=b.'+ options.sum[k]);
+				sum[0].push('this["'+ k +'"] =0');
+				sum[1].push('this["'+ k +'"]+=b.'+ options.sum[k]);
 			}
 			sum[0] = Function.call(null, sum[0].join(';'));
 			sum[1] = Function.call(null, 'b', sum[1].join(';'));
@@ -83,7 +83,7 @@
 		sort: function(fields) {
 			var field, fn = [];
 			for (field in fields)
-				fn.push(['this.rank(a.'+ field +')', 'this.rank(b.'+ field +')'][fields[field] == 'asc' ? 'slice' : 'reverse'](0).join('-'));
+				fn.push(['this.rank(a["'+ field +'"])', 'this.rank(b["'+ field +'"])'][fields[field] == 'asc' ? 'slice' : 'reverse'](0).join('-'));
 			fn = Function.call(null, 'a', 'b', 'return '+ fn.join('||'));
 			this[0].sort(function(a, b) {
 				return fn.call(sort, a, b);
@@ -138,7 +138,7 @@
 		print: function() {
 			var fn=[], i=0;
 			if (arguments.length)
-				for (var i=0; i < arguments.length; fn.push('this.'+ arguments[i++]));
+				for (var i=0; i < arguments.length; fn.push('this["'+ arguments[i++] +'"]'));
 			else
 				fn.push('this');
 			this.each(Function.call(null, 'console.log('+ fn.join(',') +')'));
@@ -161,8 +161,8 @@
 	var operators = {
 		eq: function(a, b) { return a == b },
 		not: function(a, b) { return a != b },
-		'in': function(a, b) { return b.indexOf(a) > -1 },
-		nin: function(a, b) { return b.indexOf(a) == -1 },
+		'in': function(a, b) { return indexof(a, b) > -1 },
+		nin: function(a, b) { return indexOf(a, b) == -1 },
 		gt: function(a, b) { return a > b },
 		gte: function(a, b) { return a >= b },
 		lt: function(a, b) { return a < b },
@@ -177,7 +177,7 @@
 			fields = [fields];
 			fn = 1;
 		}
-		for (; i < fn; temp.push('a.'+ fields[i][0] +'==b.'+ (fields[i][1] || fields[i][0])), i++);
+		for (; i < fn; temp.push('a["'+ fields[i][0] +'"]==b["'+ (fields[i][1] || fields[i][0]) +'"]'), i++);
 		for (match=Function.call(this, 'a', 'b', 'return '+ temp.join('&&')), temp=[], i=0; i < ln; i++) {
 			obj = extend({}, left[i]);
 			if (property)
@@ -216,6 +216,15 @@
 			return r;
 		}
 	};
+	
+	function indexof(a, b) {
+		if (Array.prototype.indexOf)
+			return b.indexOf(a);
+		for (var i=b.length; i--;)
+			if (b[i] == a)
+				break;
+		return i;
+	}
 	
 	function extend(a) {
 		for (var i=1, k, len=arguments.length; i < len; i++)
