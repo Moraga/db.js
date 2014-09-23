@@ -168,7 +168,7 @@
 		lt: function(a, b) { return a < b },
 		lte: function(a, b) { return a <= b },
 		between: function(a, b) { return a >= b[0] && a <= b[1] },
-		match: function(a, b) { return typeof a.match != 'undefined' && a.match(b) }
+		match: function(a, b) { return a.toString().match(b) }
 	};
 	
 	function join(left, right, fields, property, append, inclusive) {
