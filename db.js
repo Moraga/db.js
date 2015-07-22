@@ -1,8 +1,15 @@
-/**
+/*!
  * Javascript JSON Queries
  * @author Alejandro Moraga <moraga86@gmail.com>
  */
-(function(ref, undefined) {
+(function(root, factory) {
+	if (typeof define == 'function' && define.amd)
+		define(factory);
+	else if (typeof exports == 'object' && exports)
+		module.exports = factory();
+	else
+		root.db = factory();
+})(this, function() {
 	'use strict';
 	
 	var debug = {};
@@ -233,8 +240,7 @@
 		return a;
 	}
 	
-	ref.db = function(data) {
+	return function(data) {
 		return new db(data);
 	};
-	
-})(window);
+});
