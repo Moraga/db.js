@@ -1,0 +1,24 @@
+{
+  "name": "jsdb",
+  "version": "1.0.2",
+  "description": "Javascript JSON Queries",
+  "main": "db.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Moraga/db.js.git"
+  },
+  "keywords": [
+    "database",
+    "query",
+    "json"
+  ],
+  "author": "Alejandro Moraga <moraga86@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Moraga/db.js/issues"
+  },
+  "homepage": "https://github.com/Moraga/db.js"
+}
