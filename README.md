@@ -70,7 +70,7 @@ db(products)
 // game 150.00
 ```
 
-**filter***
+**filter**
 
 ```js
 db(products)
@@ -80,10 +80,10 @@ db(products)
  	...
  ```
  
- ***join***
+**join**
  
- ```js
- var categories = [
+```js
+var categories = [
 	{id: 1, name: "computer"},
 	{id: 2, name: "books"},
 	{id: 3, name: "games"},
@@ -96,7 +96,7 @@ db(products)
 	...
 ```
  
-***scope***
+**scope**
  
 ```js
 db(products)
@@ -111,7 +111,33 @@ db(products)
 	})
 	...
 ```
- 
+
+**sort and reverse**
+
+```js
+db(products)
+	.sort({price: 'asc'})
+	.reverse()
+	.print()
+	.reverse()
+	.print();
+```
+
+**each**
+
+```js
+db(products)
+	.each(function() {
+		console.log(this.name);
+		// creating new property
+		this.lessthanthousand = this.price < 1000;
+ 	})
+ 	.find({
+ 		lessthanthousand: {not: false}
+ 	})
+	...
+```
+
 ## Cases
 
 DB.js was used to generate complex charts and statistics from Brazil President Elections 2014 manipulating data from hundreds of studies.
